@@ -1,0 +1,64 @@
+import React, { Component } from 'react';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import { ButtonContainer } from './Button';
+import { ProductConsumer } from '../context';
+
+class Modal extends Component {
+    render(){
+        return(
+            <ProductConsumer>
+                {(value) => {
+                    const {modalOpen, closedModal} = value;
+                    const {img, title, price} = value.modalProduct;
+                    if(!modalOpen){
+                        return null;
+                    } else {
+                        return(
+                            <ModalContainer>
+                                <div className='container'>
+                                    <div className='row'>
+                                        <div id='modal' className='col-8 mx-auto col-md-6 col-lg-4 text-center text-capitalize p-5'>
+                                            <h5>item added to the cart</h5>
+                                            <img src={img} className='img-fluid' alt='product' />
+                                            <h5>{title}</h5>
+                                            <h5 className='text-muted'>price : $ {price}</h5>
+                                            <Link to='/'>
+                                                <ButtonContainer onClick={() => {closedModal()}}>
+                                                    store
+                                                </ButtonContainer>
+                                            </Link>
+                                            <Link to='/cart'>
+                                                <ButtonContainer cart onClick={() => {closedModal()}}>
+                                                    cart
+                                                </ButtonContainer>
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ModalContainer>
+                        )
+                    }
+                }}
+            </ProductConsumer>
+        );
+    }
+}
+
+export default Modal;
+
+const ModalContainer = styled.div`
+position: fixed;
+top: 0;
+bottom: 0;
+right: 0;
+left: 0;
+display: fixed;
+justify-content: center;
+align-items: center;
+background-color: rgba(0, 0, 0, 0.3);
+#modal {
+    background-color: var(--mainWhite)
+}
+
+`
